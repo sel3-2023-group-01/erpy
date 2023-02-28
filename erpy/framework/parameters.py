@@ -73,7 +73,7 @@ class SynchronizedParameter(FixedParameter[T]):
         raise TypeError("Cannot set the value of a SynchronizedParameter directly.")
 
 
-class ContinuousParameter(Parameter[float]):
+class ContinuousParameter(Parameter[Optional[float]]):
     def __init__(self, low: float = -1.0, high: float = 1.0, value: Optional[float] = None) -> None:
         super(ContinuousParameter, self).__init__(value=value)
         self.low = low
@@ -95,7 +95,7 @@ class ContinuousParameter(Parameter[float]):
         self._value = random_state.uniform(low=self.low, high=self.high)
 
 
-class RangeParameter(Parameter[np.ndarray]):
+class RangeParameter(Parameter[Optional[np.ndarray]]):
     def __init__(self, low: float = -1.0, high: float = 1.0, value: Optional[np.ndarray] = None) -> None:
         super(RangeParameter, self).__init__(value)
         self.low = low
@@ -122,7 +122,7 @@ class RangeParameter(Parameter[np.ndarray]):
         self._value = random_state.uniform(low=self.low, high=self.high, size=2)
 
 
-class DiscreteParameter(Parameter[T]):
+class DiscreteParameter(Parameter[Optional[T]]):
     def __init__(self, options: List[T], value: Optional[T] = None) -> None:
         super(DiscreteParameter, self).__init__(value)
         self.options = options
