@@ -1,14 +1,17 @@
 from __future__ import annotations
 
 import abc
-from typing import Iterable, List, Optional, T
+from typing import Iterable, List, Optional, Generic, TypeVar
 
 import numpy as np
 
 from erpy import random_state
 
 
-class Parameter(metaclass=abc.ABCMeta):
+T = TypeVar("T")
+
+
+class Parameter(Generic[T], metaclass=abc.ABCMeta):
     def __init__(self, value: T) -> None:
         self._value = value
 
@@ -31,7 +34,7 @@ class Parameter(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
 
-class FixedParameter(Parameter):
+class FixedParameter(Parameter[T]):
     def __init__(self, value: T) -> None:
         super().__init__(value)
 
@@ -50,8 +53,8 @@ class FixedParameter(Parameter):
         raise TypeError("Cannot change the value of a FixedParameter.")
 
 
-class SynchronizedParameter(FixedParameter):
-    def __init__(self, linked_parameter: Parameter) -> None:
+class SynchronizedParameter(FixedParameter[T]):
+    def __init__(self, linked_parameter: Parameter[T]) -> None:
         super().__init__(linked_parameter.value)
         self._linked_parameter = linked_parameter
 
@@ -70,7 +73,7 @@ class SynchronizedParameter(FixedParameter):
         raise TypeError("Cannot set the value of a SynchronizedParameter directly.")
 
 
-class ContinuousParameter(Parameter):
+class ContinuousParameter(Parameter[float]):
     def __init__(self, low: float = -1.0, high: float = 1.0, value: Optional[float] = None) -> None:
         super(ContinuousParameter, self).__init__(value=value)
         self.low = low
@@ -92,7 +95,7 @@ class ContinuousParameter(Parameter):
         self._value = random_state.uniform(low=self.low, high=self.high)
 
 
-class RangeParameter(Parameter):
+class RangeParameter(Parameter[np.ndarray]):
     def __init__(self, low: float = -1.0, high: float = 1.0, value: Optional[np.ndarray] = None) -> None:
         super(RangeParameter, self).__init__(value)
         self.low = low
@@ -119,7 +122,7 @@ class RangeParameter(Parameter):
         self._value = random_state.uniform(low=self.low, high=self.high, size=2)
 
 
-class DiscreteParameter(Parameter):
+class DiscreteParameter(Parameter[T]):
     def __init__(self, options: List[T], value: Optional[T] = None) -> None:
         super(DiscreteParameter, self).__init__(value)
         self.options = options
@@ -139,7 +142,7 @@ class DiscreteParameter(Parameter):
         self._value = random_state.choice(a=self.options)
 
 
-class MultiDiscreteParameter(Parameter):
+class MultiDiscreteParameter(Parameter[T]):
     def __init__(self, options: List[T], min_size: int = 0, max_size: Optional[int] = None, value: Optional[T] = None,
                  sorted: bool = False):
         super().__init__(value)
