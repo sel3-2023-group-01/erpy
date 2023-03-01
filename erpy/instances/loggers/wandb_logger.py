@@ -18,8 +18,8 @@ WandBRun = wandb.wandb_sdk.wandb_run.Run
 @dataclass
 class WandBLoggerConfig(LoggerConfig):
     project_name: str
-    group: str
-    tags: List[str]
+    group: str | None
+    tags: List[str] | None
     update_saver_path: bool
     pre_initialise_wandb: bool = True
     enable_tensorboard_backend: bool = False
