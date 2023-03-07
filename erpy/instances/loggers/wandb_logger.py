@@ -6,6 +6,8 @@ from typing import List, Type, Union, Any, Iterable
 
 import numpy as np
 import wandb
+from wandb.sdk.lib import RunDisabled
+from wandb.sdk.wandb_run import Run
 
 from erpy.framework.ea import EAConfig
 from erpy.framework.logger import Logger, LoggerConfig
@@ -57,6 +59,9 @@ def wandb_log_unknown(run: WandBRun, name: str, data: Any, step: int) -> None:
 
 
 class WandBLogger(Logger):
+
+    run: Run | RunDisabled | None
+
     def __init__(self, config: EAConfig):
         super().__init__(config=config)
 
