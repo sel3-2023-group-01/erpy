@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Type, Union, Any, Iterable
+from typing import List, Type, Union, Any, Iterable, Optional
 
 import numpy as np
 import wandb
@@ -60,7 +60,7 @@ def wandb_log_unknown(run: WandBRun, name: str, data: Any, step: int) -> None:
 
 class WandBLogger(Logger):
 
-    run: Run | RunDisabled | None
+    run: Optional[Run | RunDisabled]
 
     def __init__(self, config: EAConfig):
         super().__init__(config=config)
