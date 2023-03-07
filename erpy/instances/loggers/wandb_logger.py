@@ -13,7 +13,7 @@ from erpy.framework.logger import Logger, LoggerConfig
 from erpy.framework.population import Population
 from erpy.utils.config2json import config2dict
 
-WandBRun = Union[Optional[wandb.wandb_sdk.wandb_run.Run, RunDisabled]]
+WandBRun = Optional[Union[wandb.wandb_sdk.wandb_run.Run, RunDisabled]]
 
 
 @dataclass
