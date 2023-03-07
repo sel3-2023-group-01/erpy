@@ -60,7 +60,7 @@ def wandb_log_unknown(run: WandBRun, name: str, data: Any, step: int) -> None:
 
 class WandBLogger(Logger):
 
-    run: Optional[Run | RunDisabled]
+    run: Optional[Union[Run, RunDisabled]]
 
     def __init__(self, config: EAConfig):
         super().__init__(config=config)
