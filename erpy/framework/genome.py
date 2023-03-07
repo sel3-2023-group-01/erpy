@@ -61,6 +61,13 @@ class ESGenomeConfig(GenomeConfig):
 
 
 class Genome(abc.ABC):
+
+    _config: GenomeConfig
+    _genome_id: int
+    _parent_genome_id: Optional[int]
+    _specification: Optional[RobotSpecification]
+    age: int
+
     def __init__(self, config: GenomeConfig, genome_id: int, parent_genome_id: Optional[int] = None) -> None:
         self._config = config
         self._genome_id = genome_id
